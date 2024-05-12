@@ -37,3 +37,27 @@ class Planets(db.Model):
             "population": self.population,
             # do not serialize the password, its a security breach
         }
+    
+class Characters(db.Model):
+    __tablename__ = 'character'
+    id = Column(db.Integer, primary_key=True)
+    name = Column(db.String(250), nullable=False)
+    height = Column(db.String(250), nullable=False)
+    mass = Column(db.String(250), nullable=False)
+    haircolor = Column(db.String(250), nullable=False)
+    skincolor = Column(db.String(250), nullable=False)
+    planet_id = Column(db.Integer, ForeignKey('planet.id'))
+    planet = relationship(Planets)
+
+def __repr__(self):
+        return '<Characters %r>' % self.username
+
+def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "terrain": self.terrain,
+            "climate": self.climate,
+            "population": self.population,
+            # do not serialize the password, its a security breach
+        }
