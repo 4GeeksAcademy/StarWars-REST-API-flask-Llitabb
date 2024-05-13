@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User, Planets
+from models import db, User, Planets, Characters, Favorites_Characters, Favorites_Planets
 #from models import Person
 
 app = Flask(__name__)
@@ -37,19 +37,44 @@ def sitemap():
     return generate_sitemap(app)
 
 @app.route('/user', methods=['GET'])
-def handle_hello():
+def get_users():
+    all_users = User.query.all()
+    all_users_list = list(map(lambda user: user.serialize(),all_users))
 
-    response_body = {
-        "msg": "Hello, this is your GET /user response "
-    }
-
-    return jsonify(response_body), 200
+    return jsonify(all_users_list), 200
 
 @app.route('/Planets', methods=['GET'])
 def han_hello():
 
     response_body = {
         "msg": "Hello, this is your GET /planet response "
+    }
+
+    return jsonify(response_body), 200
+
+@app.route('/Characters', methods=['GET'])
+def han_hello():
+
+    response_body = {
+        "msg": "Hello, this is your GET /Characters response "
+    }
+
+    return jsonify(response_body), 200
+
+@app.route('/Favorites_Characters', methods=['GET'])
+def han_hello():
+
+    response_body = {
+        "msg": "Hello, this is your GET /Favorites Characters response "
+    }
+
+    return jsonify(response_body), 200
+
+@app.route('/Favorites_Planets', methods=['GET'])
+def han_hello():
+
+    response_body = {
+        "msg": "Hello, this is your GET /Favorites Planets response "
     }
 
     return jsonify(response_body), 200
