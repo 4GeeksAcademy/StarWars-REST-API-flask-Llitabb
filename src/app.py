@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User, Planets, Characters, Favorites_Characters, Favorites_Planets
+from models import db, Users, Planets, Characters, Favorites_Characters, Favorites_Planets
 #from models import Person
 
 app = Flask(__name__)
@@ -36,48 +36,49 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
-@app.route('/user', methods=['GET'])
+@app.route('/users', methods=['GET'])
 def get_users():
-    all_users = User.query.all()
-    all_users_list = list(map(lambda user: user.serialize(),all_users))
+    all_users = Users.query.all()
+    all_users_list = list(map(lambda users: users.serialize(),all_users))
 
     return jsonify(all_users_list), 200
 
 @app.route('/Planets', methods=['GET'])
-def han_hello():
+def get_planets():
+    all_planets = Planets.query.all()
+    results = list(map(lambda planet: planet.serialize(),all_planets))
 
-    response_body = {
-        "msg": "Hello, this is your GET /planet response "
-    }
-
-    return jsonify(response_body), 200
+    return jsonify(results), 200
 
 @app.route('/Characters', methods=['GET'])
-def han_hello():
+def get_characters():
+    all_characters = Characters.query.all()
+    results = list(map(lambda characters: characters.serialize(),all_characters))
 
-    response_body = {
-        "msg": "Hello, this is your GET /Characters response "
-    }
-
-    return jsonify(response_body), 200
+    return jsonify(results), 200
 
 @app.route('/Favorites_Characters', methods=['GET'])
-def han_hello():
+def get_favcharacter():
+    all_favcharacters = Favorites_Characters.query.all()
+    results = list(map(lambda Favorites_Characters: Favorites_Characters.serialize(),all_favcharacters))
 
-    response_body = {
-        "msg": "Hello, this is your GET /Favorites Characters response "
-    }
-
-    return jsonify(response_body), 200
+    return jsonify(results), 200
 
 @app.route('/Favorites_Planets', methods=['GET'])
-def han_hello():
+def get_favplanets():
+    all_favplanets = Favorites_Planets.query.all()
+    results = list(map(lambda Favorites_Planets: Favorites_Planets.serialize(),all_favplanets))
 
-    response_body = {
-        "msg": "Hello, this is your GET /Favorites Planets response "
-    }
+    return jsonify(results), 200
 
-    return jsonify(response_body), 200
+@app.route('/Favorites_Planets', methods=['POST '])
+def create_favplanets():
+    data = request.get_json()
+
+    all_favplanets = Favorites_Planets.query.all()
+    results = list(map(lambda Favorites_Planets: Favorites_Planets.serialize(),all_favplanets))
+
+    return jsonify(results), 200
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':

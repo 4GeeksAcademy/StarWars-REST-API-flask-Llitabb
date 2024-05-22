@@ -2,14 +2,14 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-class User(db.Model):
+class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return '<Users %r>' % self.email
 
     def serialize(self):
         return {
@@ -44,14 +44,14 @@ class Characters(db.Model):
     mass = db.Column(db.String(250), nullable=False)
     haircolor = db.Column(db.String(250), nullable=False)
     skincolor = db.Column(db.String(250), nullable=False)
-    planet_id = db.Column(db.Integer, ForeignKey('planet.id'))
-    planet = db.relationship(Planets)
+    planet_id = db.Column(db.Integer, db.ForeignKey("planet.id"))
+    planet = db.relationship('Planets')
 
 
-def __repr__(self):
+    def __repr__(self):
         return '<Characters %r>' % self.username
 
-def serialize(self):
+    def serialize(self):
         return {
             "id": self.id,
             "name": self.name,
@@ -66,10 +66,10 @@ def serialize(self):
 
 class Favorites_Characters(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, ForeignKey('user.id'))
-    user = db.relationship(db.Users)
-    character_id = db.Column(db.Integer, ForeignKey('character.id'))
-    character = db.relationship(Characters)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('Users')
+    character_id = db.Column(db.Integer, db.ForeignKey('character.id'))
+    character = db.relationship('Characters')
 
     def __repr__(self):
         return '<Favorites_Characters %r>' % self.username
@@ -84,12 +84,12 @@ class Favorites_Characters(db.Model):
             "character": self.character,
         }
 
-class Favorites_Planets(db.Base):
+class Favorites_Planets(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, ForeignKey('user.id'))
-    user = db.relationship(db.Users)
-    planet_id = db.Column(db.Integer, ForeignKey('planet.id'))
-    planet = db.relationship(Planets)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('Users')
+    planet_id = db.Column(db.Integer, db.ForeignKey('planet.id'))
+    planet = db.relationship('Planets')
 
     def __repr__(self):
         return '<Favorites_Planets %r>' % self.username
